@@ -82,10 +82,10 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
 
     // handle value initialization and setting for attack and release time sliders
     attackTimeSlider.setValue(audioProcessor.attackTime->get());
-    attackTimeSlider.onValueChange = [this] {audioProcessor.synth.attackTimeToSet = attackTimeSlider.getValue(); };
+    attackTimeSlider.onValueChange = [this] {audioProcessor.synth.attackTimeToSet = attackTimeSlider.getValue(); audioProcessor.synth.refreshParams = true; };
 
     releaseTimeSlider.setValue(audioProcessor.releaseTime->get());
-    releaseTimeSlider.onValueChange = [this] {audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue(); };
+    releaseTimeSlider.onValueChange = [this] {audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue(); audioProcessor.synth.refreshParams = true; };
 }
 
 void PalmutesAudioProcessorEditor::resized()

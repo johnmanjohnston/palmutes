@@ -21,6 +21,10 @@ public:
 
     float attackTimeToSet;
     float releaseTimeToSet;
+
+    int previousNoteNumber;
+
+    bool refreshParams;
 private:
     juce::AudioFormatManager audioFormatManager;
     std::string SAMPLES_ROOT_DIR = "C:\\Users\\USER\\other-nerd-stuff\\projects\\palmutes\\samples";

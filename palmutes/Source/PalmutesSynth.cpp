@@ -35,11 +35,13 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
         const auto midiMessage = midiData.getMessage();
         const auto noteNumber = midiMessage.getNoteNumber();
 
-        if (midiMessage.isNoteOn()) { this->noteOn(1, noteNumber, midiMessage.getFloatVelocity()); }
-        if (midiMessage.isNoteOff()) { this->noteOff(1, noteNumber, midiMessage.getFloatVelocity(), true); }
+        if (noteNumber != previousNoteNumber) {
+            previousNoteNumber = noteNumber;
+        }
+        else if (!refreshParams) { return; }
 
         // structure for sample file path is: /samples/<harmonized OR unharmonized>/<note_number>_<velocity>.wav
-        File* file = nullptr;
+        ScopedPointer<File> file;
         if (noteNumber > 80) {
             file = new File("C:\\Users\\USER\\OneDrive\\Documents\\Ableton\\Live Recordings\\2024-03-09 130654 Temp Project\\Samples\\Processed\\Consolidate\\GrandPiano C3 f [2024-03-09 130834].wav");
         }
@@ -49,8 +51,12 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
 
         ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
 
-        addSound(new SamplerSound("default", *reader, allNotes, 69, attackTimeToSet, releaseTimeToSet, 10.f));
         this->sounds.remove(0);
+
+        auto sound = new SamplerSound("default", *reader, allNotes, 69, attackTimeToSet, releaseTimeToSet, 10.f);
+        this->addSound(sound);
+
+        refreshParams = false;
 
         DBG(noteNumber);
     }
