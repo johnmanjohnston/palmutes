@@ -2,11 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio Version 17
 
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "palmutes - Standalone Plugin", "palmutes_StandalonePlugin.vcxproj", "{E48A8757-C47E-606A-372E-C1FA12C668E6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{76271090-7161-3EEA-286E-A08FF226F80C} = {76271090-7161-3EEA-286E-A08FF226F80C}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "palmutes - VST3", "palmutes_VST3.vcxproj", "{DFE4177E-323D-58CC-2524-B4A4BCECA9C1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{76271090-7161-3EEA-286E-A08FF226F80C} = {76271090-7161-3EEA-286E-A08FF226F80C}
@@ -30,12 +25,6 @@ Global
 		{DFE4177E-323D-58CC-2524-B4A4BCECA9C1}.Release|x64.Build.0 = Release|x64
 		{DFE4177E-323D-58CC-2524-B4A4BCECA9C1}.Build Configuration|x64.ActiveCfg = Build Configuration|x64
 		{DFE4177E-323D-58CC-2524-B4A4BCECA9C1}.Build Configuration|x64.Build.0 = Build Configuration|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Debug|x64.ActiveCfg = Debug|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Debug|x64.Build.0 = Debug|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Release|x64.ActiveCfg = Release|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Release|x64.Build.0 = Release|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Build Configuration|x64.ActiveCfg = Build Configuration|x64
-		{E48A8757-C47E-606A-372E-C1FA12C668E6}.Build Configuration|x64.Build.0 = Build Configuration|x64
 		{76271090-7161-3EEA-286E-A08FF226F80C}.Debug|x64.ActiveCfg = Debug|x64
 		{76271090-7161-3EEA-286E-A08FF226F80C}.Debug|x64.Build.0 = Debug|x64
 		{76271090-7161-3EEA-286E-A08FF226F80C}.Release|x64.ActiveCfg = Release|x64

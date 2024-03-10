@@ -2,7 +2,9 @@
 
 <JUCERPROJECT id="aDArD3" name="palmutes" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn">
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginFormats="buildVST3" pluginManufacturer="johnmanjohnston"
+              pluginName="Palmutes" companyName="johnmanjohnston" companyWebsite="https://johnmanjohnston.github.io">
   <MAINGROUP id="X6MMre" name="palmutes">
     <GROUP id="{96CFB896-B372-3318-1DD8-A5357E8FEC09}" name="Source">
       <FILE id="x8l9iW" name="guitar.png" compile="0" resource="1" file="../assets/guitar.png"/>
