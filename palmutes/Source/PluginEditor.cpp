@@ -26,6 +26,7 @@ PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
     gainSlider.setLookAndFeel(nullptr);
     attackTimeSlider.setLookAndFeel(nullptr);
     releaseTimeSlider.setLookAndFeel(nullptr);
+    harmonizationChekbox.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -87,6 +88,11 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     releaseTimeSlider.setNumDecimalPlacesToDisplay(2);
     releaseTimeSlider.setLookAndFeel(&palmutesLookAndFeel);
 
+    // draw harmonization checkbox
+    addAndMakeVisible(harmonizationChekbox);
+    harmonizationChekbox.setButtonText("HARMONIZE");
+    harmonizationChekbox.setLookAndFeel(&palmutesLookAndFeel);
+
     // handle value initialization and setting for attack and release time sliders
     attackTimeSlider.setValue(audioProcessor.attackTime->get());
     audioProcessor.synth.attackTimeToSet = attackTimeSlider.getValue();
@@ -111,4 +117,6 @@ void PalmutesAudioProcessorEditor::resized()
     gainSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 5.f, 300, 50);
     releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f,300, 50);
     attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.7f,300, 50);
+
+    harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
 }

@@ -61,3 +61,20 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
         DBG(noteNumber);
     }
 }
+
+void PalmutesSynth::GetFileName(int noteNumber, float velocity)
+{
+}
+
+int PalmutesSynth::GetSampleVelocity(float realVelocity)
+{
+    return 0;
+}
+
+int PalmutesSynth::GetVariationNumber()
+{
+    int retval;
+    
+    previousVariationNumber = retval;
+    return retval;
+}

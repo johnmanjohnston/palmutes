@@ -16,4 +16,7 @@ class PalmutesLookAndFeel : public LookAndFeel_V4
 {
 public:
     Font getLabelFont(Label& label) override;
+    void drawToggleButton(Graphics& g, ToggleButton& button, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
+private:
+    Font getSpaceGroteskBold();
 };

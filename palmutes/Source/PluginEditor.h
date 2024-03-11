@@ -37,6 +37,8 @@ public:
     juce::Slider releaseTimeSlider;
     juce::SliderParameterAttachment releaseTimeSliderParamAttachment;
 
+    juce::ToggleButton harmonizationChekbox;
+
     PalmutesLookAndFeel palmutesLookAndFeel;
 private:
     // This reference is provided as a quick way for your editor to
