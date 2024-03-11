@@ -24,7 +24,7 @@ void PalmutesSynth::setup()
 
     File* file = new File("C:\\Users\\USER\\OneDrive\\Documents\\Ableton\\Live Recordings\\2024-03-09 130654 Temp Project\\Samples\\Processed\\Consolidate\\GrandPiano C3 f [2024-03-09 130834].wav");
     ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);
-    addSound(new SamplerSound("default", *reader, allNotes, 60, 10, 10, 10.f));
+    addSound(new SamplerSound("default", *reader, allNotes, 69, attackTimeToSet, releaseTimeToSet, 10.f));
 }
 
 void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
