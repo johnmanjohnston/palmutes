@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "PalmutesLookAndFeel.h"
+#include <vector>
 
 //==============================================================================
 /**
@@ -34,6 +36,8 @@ public:
 
     juce::Slider releaseTimeSlider;
     juce::SliderParameterAttachment releaseTimeSliderParamAttachment;
+
+    PalmutesLookAndFeel palmutesLookAndFeel;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

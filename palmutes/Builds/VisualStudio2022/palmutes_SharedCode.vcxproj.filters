@@ -592,6 +592,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\PalmutesLookAndFeel.cpp">
+      <Filter>palmutes\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PalmutesSynth.cpp">
       <Filter>palmutes\Source</Filter>
     </ClCompile>
@@ -3012,6 +3015,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\PalmutesLookAndFeel.h">
+      <Filter>palmutes\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PalmutesSynth.h">
       <Filter>palmutes\Source</Filter>
     </ClInclude>

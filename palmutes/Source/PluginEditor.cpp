@@ -23,6 +23,9 @@ PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor (PalmutesAudioProcess
 
 PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
 {
+    gainSlider.setLookAndFeel(nullptr);
+    attackTimeSlider.setLookAndFeel(nullptr);
+    releaseTimeSlider.setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -64,21 +67,25 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     // draw gain slider
     addAndMakeVisible(gainSlider);
     gainSlider.setRange(audioProcessor.gainParamter->range.start, audioProcessor.gainParamter->range.end);
-    gainSlider.setTextValueSuffix(" gain");
+    gainSlider.setTextValueSuffix(" - GAIN");
     gainSlider.setSkewFactor(1.2f);
     gainSlider.setNumDecimalPlacesToDisplay(2);
+    gainSlider.setLookAndFeel(&palmutesLookAndFeel);
+    //gainSlider.setTextBoxStyle(Slider::TextBoxLeft, false, 80, 26);
 
     // draw attack time slider
     addAndMakeVisible(attackTimeSlider);
     attackTimeSlider.setRange(audioProcessor.minTime, audioProcessor.maxTime);
-    attackTimeSlider.setTextValueSuffix("Attack Time");
+    attackTimeSlider.setTextValueSuffix(" - ATTACK");
     attackTimeSlider.setNumDecimalPlacesToDisplay(2);
-
+    attackTimeSlider.setLookAndFeel(&palmutesLookAndFeel);
+    
     // draw release time slider
     addAndMakeVisible(releaseTimeSlider);
     releaseTimeSlider.setRange(audioProcessor.minTime, audioProcessor.maxTime);
-    releaseTimeSlider.setTextValueSuffix("Release Time");
+    releaseTimeSlider.setTextValueSuffix(" - RELEASE");
     releaseTimeSlider.setNumDecimalPlacesToDisplay(2);
+    releaseTimeSlider.setLookAndFeel(&palmutesLookAndFeel);
 
     // handle value initialization and setting for attack and release time sliders
     attackTimeSlider.setValue(audioProcessor.attackTime->get());
@@ -99,7 +106,7 @@ void PalmutesAudioProcessorEditor::resized()
     );
     
     // position sliders
-    gainSlider.setBounds(getLocalBounds() / 2);
-    releaseTimeSlider.setBounds(WINDOW_RATIO_X * WINDOW_RATIO_MULTIPLIER / 2, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3, 300, 50);
-    attackTimeSlider.setBounds(WINDOW_RATIO_X * WINDOW_RATIO_MULTIPLIER / 2, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2, 300, 50);
+    gainSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 5.f, 300, 50);
+    releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f,300, 50);
+    attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.7f,300, 50);
 }
