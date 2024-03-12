@@ -3399,6 +3399,7 @@
     <ClInclude Include="..\..\JuceLibraryCode\JucePluginDefines.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\assets\bg-texture.png"/>
     <None Include="..\..\..\assets\guitar.png"/>
     <None Include="..\..\..\assets\Palm Mutes-high-res.png"/>
     <None Include="..\..\..\assets\SpaceGrotesk-Bold.ttf"/>

@@ -56,6 +56,10 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     g.setFont(18.f);
     g.drawFittedText("Palmutes, by Ethan John / JohnmanJohnston", 10, (WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 1.58f), 500, 50, juce::Justification::left, 1);
 
+    // draw texture image, and draw
+    juce::Image textureImg = juce::ImageCache::getFromMemory(BinaryData::bgtexture_png, BinaryData::bgtexture_pngSize);
+    g.drawImageAt(textureImg, 0, 0);
+
     // draw Palm Mutes logo
     juce::Image palmutesLogo = juce::ImageCache::getFromMemory(BinaryData::Palm_Muteshighres_png, BinaryData::Palm_Muteshighres_pngSize);
     g.drawImageWithin(palmutesLogo, 10, -(WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.2f), 400, 400, false);

@@ -5858,6 +5858,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\assets\bg-texture.png">
+      <Filter>palmutes\Source</Filter>
+    </None>
     <None Include="..\..\..\assets\guitar.png">
       <Filter>palmutes\Source</Filter>
     </None>
