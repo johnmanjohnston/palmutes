@@ -54,7 +54,7 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     auto grayedOutTextcolor = juce::Colour(100, 100, 110);
     g.setColour(grayedOutTextcolor);
     g.setFont(18.f);
-    g.drawFittedText("Palmutes, by Ethan John / JohnmanJohnston", 10, (WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 1.58f), 500, 50, juce::Justification::left, 1);
+    g.drawFittedText("Palmutes, by Ethan John / JohnmanJohnston\nFree and open-source at github.com/johnmanjohnston/palmutes/", 10, (WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 1.58f), 500, 300, juce::Justification::left, 2);
 
     // draw texture image, and draw
     juce::Image textureImg = juce::ImageCache::getFromMemory(BinaryData::bgtexture_png, BinaryData::bgtexture_pngSize);
