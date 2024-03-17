@@ -37,10 +37,7 @@ void PalmutesAudioProcessorEditor::changeListenerCallback(ChangeBroadcaster* sou
     DBG("from the editirorasdfasdfasdforo");
     this->activeNotes = kbListener.activeNotes;
 
-    for (auto note : activeNotes) {
-        DBG("logging active notes");
-        DBG(note);
-    }
+    repaint();
 }
 
 //==============================================================================
@@ -119,6 +116,11 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     releaseTimeSlider.setValue(audioProcessor.releaseTime->get());
     audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue();
     releaseTimeSlider.onValueChange = [this] {audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue(); audioProcessor.synth.refreshParams = true; };
+    
+    // draw any active notes
+    for (int note : activeNotes) {
+        g.drawRect((460), 148, 5, 5); // 1st fret, E string
+    }
 }
 
 void PalmutesAudioProcessorEditor::resized()
