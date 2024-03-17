@@ -16,6 +16,17 @@
 //==============================================================================
 /**
 */
+class KeyboardStateListener : public juce::MidiKeyboardState::Listener {
+public:
+    void handleNoteOn(MidiKeyboardState* source, int midiChannel, int midiNoteNumber, float velocity) override {
+        DBG("handlenoteon() from listener");
+    }
+
+    void handleNoteOff(MidiKeyboardState* source, int midiChannel, int midiNoteNumber, float velocity) override {
+        DBG("handlenoteoff() from listenrer");
+    }
+};
+
 class PalmutesAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
@@ -25,6 +36,8 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+
+    void frettingIndicator();
 
     juce::MidiKeyboardComponent keyboardComponent;
 
@@ -40,6 +53,7 @@ public:
     juce::ToggleButton harmonizationChekbox;
 
     PalmutesLookAndFeel palmutesLookAndFeel;
+    KeyboardStateListener kbListener;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

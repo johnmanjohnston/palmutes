@@ -7,6 +7,7 @@
               pluginName="Palmutes" companyName="johnmanjohnston" companyWebsite="https://johnmanjohnston.github.io">
   <MAINGROUP id="X6MMre" name="palmutes">
     <GROUP id="{96CFB896-B372-3318-1DD8-A5357E8FEC09}" name="Source">
+      <FILE id="TzHcfL" name="SharedData.h" compile="0" resource="0" file="Source/SharedData.h"/>
       <FILE id="S92lbB" name="bg-texture.png" compile="0" resource="1" file="../assets/bg-texture.png"/>
       <FILE id="YxvIkf" name="PalmutesLookAndFeel.cpp" compile="1" resource="0"
             file="Source/PalmutesLookAndFeel.cpp"/>

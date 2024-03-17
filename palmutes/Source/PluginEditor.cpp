@@ -10,8 +10,8 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor (PalmutesAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), keyboardComponent(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
+PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor(PalmutesAudioProcessor& p)
+    : AudioProcessorEditor(&p), audioProcessor(p), keyboardComponent(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     gainSliderParamAttachment(*p.gainParamter, gainSlider), attackTimeSliderParamAttachment(*p.attackTime, attackTimeSlider),
     releaseTimeSliderParamAttachment(*p.releaseTime, releaseTimeSlider)
 {
@@ -19,10 +19,12 @@ PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor (PalmutesAudioProcess
     // editor's size to whatever you need it to be.
     this->setSize(WINDOW_RATIO_X * WINDOW_RATIO_MULTIPLIER, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER);
     this->addAndMakeVisible(keyboardComponent);
+
+    p.keyboardState.addListener(&kbListener);
 }
 
 PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
-{
+{   
     gainSlider.setLookAndFeel(nullptr);
     attackTimeSlider.setLookAndFeel(nullptr);
     releaseTimeSlider.setLookAndFeel(nullptr);
@@ -108,7 +110,7 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
 }
 
 void PalmutesAudioProcessorEditor::resized()
-{
+{   
     // position on-screen keyboard
     keyboardComponent.setBounds(
         0, 
@@ -123,4 +125,9 @@ void PalmutesAudioProcessorEditor::resized()
     attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.7f,300, 50);
 
     harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
+}
+
+void PalmutesAudioProcessorEditor::frettingIndicator()
+{
+    DBG("fretting indicoatr");
 }

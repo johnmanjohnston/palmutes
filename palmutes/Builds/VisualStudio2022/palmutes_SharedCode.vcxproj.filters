@@ -3015,6 +3015,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SharedData.h">
+      <Filter>palmutes\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PalmutesLookAndFeel.h">
       <Filter>palmutes\Source</Filter>
     </ClInclude>
