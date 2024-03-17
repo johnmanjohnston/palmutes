@@ -58,7 +58,7 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
 
         refreshParams = false;
 
-        DBG(noteNumber);
+        //DBG(noteNumber);
     }
 }
 

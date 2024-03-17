@@ -21,6 +21,7 @@ PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor(PalmutesAudioProcesso
     this->addAndMakeVisible(keyboardComponent);
 
     p.keyboardState.addListener(&kbListener);
+    kbListener.addChangeListener(this);
 }
 
 PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
@@ -29,6 +30,17 @@ PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
     attackTimeSlider.setLookAndFeel(nullptr);
     releaseTimeSlider.setLookAndFeel(nullptr);
     harmonizationChekbox.setLookAndFeel(nullptr);
+}
+
+void PalmutesAudioProcessorEditor::changeListenerCallback(ChangeBroadcaster* source)
+{
+    DBG("from the editirorasdfasdfasdforo");
+    this->activeNotes = kbListener.activeNotes;
+
+    for (auto note : activeNotes) {
+        DBG("logging active notes");
+        DBG(note);
+    }
 }
 
 //==============================================================================
@@ -131,3 +143,4 @@ void PalmutesAudioProcessorEditor::frettingIndicator()
 {
     DBG("fretting indicoatr");
 }
+

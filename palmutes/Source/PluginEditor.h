@@ -11,27 +11,48 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "PalmutesLookAndFeel.h"
+#include "SharedData.h"
 #include <vector>
 
 //==============================================================================
 /**
 */
-class KeyboardStateListener : public juce::MidiKeyboardState::Listener {
+
+class KeyboardStateListener : public juce::MidiKeyboardState::Listener, public juce::ChangeBroadcaster {
 public:
+    std::vector<int> activeNotes;
+
     void handleNoteOn(MidiKeyboardState* source, int midiChannel, int midiNoteNumber, float velocity) override {
-        DBG("handlenoteon() from listener");
+        activeNotes.push_back(midiNoteNumber);
+        sendChangeMessage();
     }
 
     void handleNoteOff(MidiKeyboardState* source, int midiChannel, int midiNoteNumber, float velocity) override {
-        DBG("handlenoteoff() from listenrer");
+        for (auto it = activeNotes.begin(); it != activeNotes.end(); ++it) {
+            if (*it == midiNoteNumber) {
+                activeNotes.erase(it);
+                break;
+            }
+        }
+        sendChangeMessage();
     }
 };
 
-class PalmutesAudioProcessorEditor  : public juce::AudioProcessorEditor
+class PalmutesAudioProcessorEditor  : public juce::AudioProcessorEditor, public juce::ChangeListener
 {
 public:
     PalmutesAudioProcessorEditor (PalmutesAudioProcessor&);
     ~PalmutesAudioProcessorEditor() override;
+
+    void changeListenerCallback(ChangeBroadcaster* source) override;
+
+    /*
+    class ChListener : public juce::ChangeListener {
+        void changeListenerCallback(ChangeBroadcaster* source) override;
+    };
+
+    ChListener listener;
+    */
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -54,6 +75,8 @@ public:
 
     PalmutesLookAndFeel palmutesLookAndFeel;
     KeyboardStateListener kbListener;
+
+    std::vector<int> activeNotes;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
