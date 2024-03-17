@@ -125,6 +125,14 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     synth.setCurrentPlaybackSampleRate(sampleRate);
+
+    compressor.configureSpec(sampleRate, getTotalNumOutputChannels(), samplesPerBlock);
+    compressor.setParams(
+        10,
+        500,
+        -20,
+        100
+    );
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -193,6 +201,8 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 
     synth.runtimeSoundConfiguration(midiMessages);
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    compressor.processSignal(buffer);
 
     buffer.applyGain(*gainParamter);
 }
