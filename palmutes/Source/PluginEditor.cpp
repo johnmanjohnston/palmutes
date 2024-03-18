@@ -76,7 +76,7 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     g.drawImageWithin(palmutesLogo, 10, -(WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.2f), 400, 400, false);
 
     // draw guitar
-    juce::Image guitar = juce::ImageCache::getFromMemory(BinaryData::guitar_png, BinaryData::guitar_pngSize);
+    juce::Image guitar = juce::ImageCache::getFromMemory(BinaryData::guitaroriented_png, BinaryData::guitaroriented_pngSize);
     g.drawImageWithin(guitar, (WINDOW_RATIO_X * WINDOW_RATIO_MULTIPLIER / 2.6f), -(WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 4.f), 500, 500, 0);
 
     // draw parameter UI components
