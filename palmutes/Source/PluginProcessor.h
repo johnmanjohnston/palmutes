@@ -10,7 +10,9 @@
 
 #include <JuceHeader.h>
 #include "PalmutesSynth.h"
+
 #include "Compressor.h"
+#include "StereoWidener.h"
 
 //==============================================================================
 /**
@@ -64,6 +66,7 @@ public:
     juce::AudioParameterFloat* releaseTime;
 
     Compressor compressor;
+    SteroWidener stereoWidener;
 
     // for both, attack and release time
     uint16_t minTime = 0;
