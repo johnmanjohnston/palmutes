@@ -65,6 +65,7 @@ public:
     juce::AudioParameterFloat* attackTime;
     juce::AudioParameterFloat* releaseTime;
 
+    juce::dsp::ProcessSpec spec;
     Compressor compressor;
     SteroWidener stereoWidener;
 

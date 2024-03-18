@@ -126,7 +126,15 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // initialisation that you need..
     synth.setCurrentPlaybackSampleRate(sampleRate);
 
-    compressor.configureSpec(sampleRate, getTotalNumOutputChannels(), samplesPerBlock);
+    // configure spec
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+    spec.sampleRate = sampleRate;
+
+    // setup compressor
+    // fixing the parameter values here is temporary; later, allow those parameters to be
+    // modifiable from the editor
+    compressor.setSpec(this->spec);
     compressor.setParams(
         10,
         500,
@@ -134,6 +142,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
         100
     );
 
+    // configure stero widener. Later, alllow the width to be modifiable from the editor
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
     stereoWidener.width = 1.5f;
 }

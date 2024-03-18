@@ -17,17 +17,11 @@ public:
     float _releaseTime;
     float _threshold;
     float _ratio;
-    juce::dsp::ProcessSpec spec;
 
     juce::dsp::Compressor<float> _compressor;
 
-    void configureSpec(double sampleRate,
-                 int numChannels, int samplesPerBlock) 
+    void setSpec(juce::dsp::ProcessSpec spec) 
     { 
-        spec.maximumBlockSize = samplesPerBlock;
-        spec.numChannels = numChannels;
-        spec.sampleRate = sampleRate;
-
         _compressor.prepare(spec); 
     }
 
