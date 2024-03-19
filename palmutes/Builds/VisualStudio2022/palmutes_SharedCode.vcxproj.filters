@@ -6146,6 +6146,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\assets\ir_two.wav">
+      <Filter>palmutes\Source</Filter>
+    </None>
+    <None Include="..\..\..\assets\ir.wav">
+      <Filter>palmutes\Source</Filter>
+    </None>
     <None Include="..\..\..\assets\guitaroriented.png">
       <Filter>palmutes\Source</Filter>
     </None>

@@ -69,6 +69,9 @@ public:
     Compressor compressor;
     SteroWidener stereoWidener;
 
+    enum { convolutionIndex };
+    juce::dsp::ProcessorChain<juce::dsp::Convolution> processorChain;
+
     // for both, attack and release time
     uint16_t minTime = 0;
     uint16_t maxTime = 2;

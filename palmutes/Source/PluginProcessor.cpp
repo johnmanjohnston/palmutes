@@ -30,7 +30,7 @@ PalmutesAudioProcessor::PalmutesAudioProcessor()
         "gain",
         "Gain",
         0.f,
-        1.f,
+        5.f,
         .5f
     ));
 
@@ -145,6 +145,16 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // configure stero widener. Later, alllow the width to be modifiable from the editor
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
     stereoWidener.width = 1.5f;
+
+    processorChain.prepare(spec);
+    processorChain.reset();
+    processorChain.template get<convolutionIndex>().loadImpulseResponse(
+        BinaryData::ir_two_wav,
+        BinaryData::ir_two_wavSize,
+        juce::dsp::Convolution::Stereo::yes,
+        juce::dsp::Convolution::Trim::yes,
+        0
+    );
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -203,6 +213,10 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 
     compressor.processSignal(buffer);
     stereoWidener.process(buffer);
+
+    juce::dsp::AudioBlock<float> block(buffer);
+    juce::dsp::ProcessContextReplacing<float> context(block);
+    processorChain.process(context);
 
     buffer.applyGain(*gainParamter);
 }
