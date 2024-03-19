@@ -53,7 +53,7 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
 
         this->sounds.remove(0);
 
-        auto sound = new SamplerSound("default", *reader, allNotes, 69, attackTimeToSet, releaseTimeToSet, 10.f);
+        auto sound = new SamplerSound("default", *reader, allNotes, 57, attackTimeToSet, releaseTimeToSet, 10.f);
         this->addSound(sound);
 
         refreshParams = false;

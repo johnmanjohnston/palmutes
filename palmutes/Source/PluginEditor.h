@@ -58,7 +58,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void frettingIndicator();
+    int getStringVerticalPosition(int stringNumber); // 0 is low E, 6 is high E
+    int getFretHorizontalPosition(int fret);
 
     juce::MidiKeyboardComponent keyboardComponent;
 
@@ -77,6 +78,10 @@ public:
     KeyboardStateListener kbListener;
 
     std::vector<int> activeNotes;
+
+    // range for drawing fretting indicators
+    const int MIN_PLAYABLE_MIDI_NOTE = 52; // E2
+    const int MAX_PLAYABLE_MIDI_NOTE = 67; 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

@@ -119,7 +119,28 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     
     // draw any active notes
     for (int note : activeNotes) {
-        g.drawRect((460), 148, 5, 5); // 1st fret, E string
+        // g.drawRect(getFretHorizontalPosition(note % 12), getStringVerticalPosition(note % 6), 5, 5);
+
+        if (note <= MAX_PLAYABLE_MIDI_NOTE && note >= MIN_PLAYABLE_MIDI_NOTE) {
+            int noteNumberRelativeToE2 = note - 44;
+            int fret = noteNumberRelativeToE2 % 8; // wrap
+            int string = std::floor(noteNumberRelativeToE2 / 8) - 1;
+
+            if (string > 0) {
+                fret += 3;
+            }
+
+            DBG("fret is" << fret);
+            DBG("string is " << string);
+
+            int x = getFretHorizontalPosition(fret);
+            int y = getStringVerticalPosition(string);
+
+            DBG(x);
+            DBG(y);
+
+            g.drawRect(x, y, 5, 5);
+        }
     }
 }
 
@@ -141,8 +162,42 @@ void PalmutesAudioProcessorEditor::resized()
     harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
 }
 
-void PalmutesAudioProcessorEditor::frettingIndicator()
+int PalmutesAudioProcessorEditor::getStringVerticalPosition(int stringNumber)
 {
-    DBG("fretting indicoatr");
+    int retval = 167 - (stringNumber * 4 + (stringNumber / 2));
+    return retval;
 }
 
+int PalmutesAudioProcessorEditor::getFretHorizontalPosition(int fret)
+{
+    // <fret number>: <value>
+    // 1: 0
+    // 2: 19
+    // 3: 39
+    // 4: 57
+    // 5: 73
+    // 6: 89
+    // 7: 103
+    // 8: 117
+    // 9: 130
+
+    int maxFret =     9;
+    int fretPositions[9] = {
+        -20,
+        0,
+        19,
+        39,
+        56,
+        72,
+        88,
+        102,
+        116,
+        //129
+    };
+
+    int retval = 464;
+    if (fret >= maxFret) { retval += fretPositions[8]; return retval; }
+
+    retval += fretPositions[fret];
+    return retval;
+}
