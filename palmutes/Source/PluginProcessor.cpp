@@ -136,10 +136,10 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     // modifiable from the editor
     compressor.setSpec(this->spec);
     compressor.setParams(
-        10,
+        100,
         500,
-        -20,
-        100
+        -15,
+        4
     );
 
     // configure stero widener. Later, alllow the width to be modifiable from the editor

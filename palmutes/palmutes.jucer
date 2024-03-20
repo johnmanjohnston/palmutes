@@ -7,6 +7,7 @@
               pluginName="Palmutes" companyName="johnmanjohnston" companyWebsite="https://johnmanjohnston.github.io">
   <MAINGROUP id="X6MMre" name="palmutes">
     <GROUP id="{96CFB896-B372-3318-1DD8-A5357E8FEC09}" name="Source">
+      <FILE id="iomkWf" name="fretmarker.png" compile="0" resource="1" file="../assets/fretmarker.png"/>
       <FILE id="GuAry2" name="ir_two.wav" compile="0" resource="1" file="../assets/ir_two.wav"/>
       <FILE id="e7jg1S" name="ir.wav" compile="0" resource="1" file="../assets/ir.wav"/>
       <FILE id="TJYdXc" name="guitaroriented.png" compile="0" resource="1"

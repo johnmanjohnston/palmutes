@@ -8,6 +8,9 @@
 
 namespace BinaryData
 {
+    extern const char*   fretmarker_png;
+    const int            fretmarker_pngSize = 223;
+
     extern const char*   ir_two_wav;
     const int            ir_two_wavSize = 18742;
 
@@ -42,7 +45,7 @@ namespace BinaryData
     const int            SpaceGroteskSemiBold_ttfSize = 86576;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 11;
+    const int namedResourceListSize = 12;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

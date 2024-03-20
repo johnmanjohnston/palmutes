@@ -79,6 +79,8 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     juce::Image guitar = juce::ImageCache::getFromMemory(BinaryData::guitaroriented_png, BinaryData::guitaroriented_pngSize);
     g.drawImageWithin(guitar, (WINDOW_RATIO_X * WINDOW_RATIO_MULTIPLIER / 2.6f), -(WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 4.f), 500, 500, 0);
 
+    gainSlider.getLookAndFeel().setColour(juce::Slider::trackColourId, juce::Colours::grey);
+
     // draw parameter UI components
     // draw gain slider
     addAndMakeVisible(gainSlider);
@@ -87,6 +89,8 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     gainSlider.setSkewFactor(1.2f);
     gainSlider.setNumDecimalPlacesToDisplay(2);
     gainSlider.setLookAndFeel(&palmutesLookAndFeel);
+    gainSlider.setSize(150, 18);
+    gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
     //gainSlider.setTextBoxStyle(Slider::TextBoxLeft, false, 80, 26);
 
     // draw attack time slider
@@ -95,6 +99,8 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     attackTimeSlider.setTextValueSuffix(" - ATTACK");
     attackTimeSlider.setNumDecimalPlacesToDisplay(2);
     attackTimeSlider.setLookAndFeel(&palmutesLookAndFeel);
+    attackTimeSlider.setSize(150, 18);
+    attackTimeSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
     
     // draw release time slider
     addAndMakeVisible(releaseTimeSlider);
@@ -102,6 +108,8 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     releaseTimeSlider.setTextValueSuffix(" - RELEASE");
     releaseTimeSlider.setNumDecimalPlacesToDisplay(2);
     releaseTimeSlider.setLookAndFeel(&palmutesLookAndFeel);
+    releaseTimeSlider.setSize(150, 18);
+    releaseTimeSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
 
     // draw harmonization checkbox
     addAndMakeVisible(harmonizationChekbox);
@@ -139,7 +147,8 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
             DBG(x);
             DBG(y);
 
-            g.drawRect(x, y, 5, 5);
+            //g.drawRect(x, y, 5, 5);
+            g.drawImageAt(juce::ImageCache::getFromMemory(BinaryData::fretmarker_png, BinaryData::fretmarker_pngSize), x, y);
         }
     }
 }
@@ -155,9 +164,9 @@ void PalmutesAudioProcessorEditor::resized()
     );
     
     // position sliders
-    gainSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 5.f, 300, 50);
-    releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f,300, 50);
-    attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.7f,300, 50);
+    gainSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 4.5f, 300, 50);
+    releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f, 300, 50);
+    attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.84f,300, 50);
 
     harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
 }
