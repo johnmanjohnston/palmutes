@@ -72,6 +72,9 @@ public:
     juce::Slider releaseTimeSlider;
     juce::SliderParameterAttachment releaseTimeSliderParamAttachment;
 
+    juce::Slider preGainSlider;
+    juce::SliderParameterAttachment pregainSliderAttachment;
+
     juce::ToggleButton harmonizationChekbox;
 
     PalmutesLookAndFeel palmutesLookAndFeel;

@@ -13,7 +13,7 @@
 PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor(PalmutesAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p), keyboardComponent(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     gainSliderParamAttachment(*p.gainParamter, gainSlider), attackTimeSliderParamAttachment(*p.attackTime, attackTimeSlider),
-    releaseTimeSliderParamAttachment(*p.releaseTime, releaseTimeSlider)
+    releaseTimeSliderParamAttachment(*p.releaseTime, releaseTimeSlider), pregainSliderAttachment(*p.preGainParam, preGainSlider)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -30,6 +30,8 @@ PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
     attackTimeSlider.setLookAndFeel(nullptr);
     releaseTimeSlider.setLookAndFeel(nullptr);
     harmonizationChekbox.setLookAndFeel(nullptr);
+
+    preGainSlider.setLookAndFeel(nullptr);
 }
 
 void PalmutesAudioProcessorEditor::changeListenerCallback(ChangeBroadcaster* source)
@@ -111,6 +113,16 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     releaseTimeSlider.setSize(150, 18);
     releaseTimeSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
 
+    // draw pregain slider
+    addAndMakeVisible(preGainSlider);
+    preGainSlider.setRange(audioProcessor.preGainParam->range.start, audioProcessor.preGainParam->range.end);
+    preGainSlider.setTextValueSuffix(" - PRE-GAIN");
+    preGainSlider.setSkewFactor(1.2f);
+    preGainSlider.setNumDecimalPlacesToDisplay(2);
+    preGainSlider.setLookAndFeel(&palmutesLookAndFeel);
+    preGainSlider.setSize(150, 18);
+    preGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
+
     // draw harmonization checkbox
     addAndMakeVisible(harmonizationChekbox);
     harmonizationChekbox.setButtonText("HARMONIZE");
@@ -125,6 +137,10 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue();
     releaseTimeSlider.onValueChange = [this] {audioProcessor.synth.releaseTimeToSet = releaseTimeSlider.getValue(); audioProcessor.synth.refreshParams = true; };
     
+    preGainSlider.setValue(audioProcessor.preGainParam->get());
+    audioProcessor.distortion.preGainValue = preGainSlider.getValue();
+    preGainSlider.onValueChange = [this] { audioProcessor.distortion.updateParams(); };
+
     // draw any active notes
     for (int note : activeNotes) {
         // g.drawRect(getFretHorizontalPosition(note % 12), getStringVerticalPosition(note % 6), 5, 5);
@@ -167,6 +183,7 @@ void PalmutesAudioProcessorEditor::resized()
     gainSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 4.5f, 300, 50);
     releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f, 300, 50);
     attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.84f,300, 50);
+    preGainSlider.setBounds    (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.39f, 300, 50);
 
     harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
 }

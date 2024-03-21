@@ -62,9 +62,12 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     juce::MidiKeyboardState keyboardState;
+
     juce::AudioParameterFloat* gainParamter;
     juce::AudioParameterFloat* attackTime;
     juce::AudioParameterFloat* releaseTime;
+
+    juce::AudioParameterFloat* preGainParam;
 
     // audio effects
     juce::dsp::ProcessSpec spec;

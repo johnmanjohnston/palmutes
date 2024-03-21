@@ -51,6 +51,14 @@ PalmutesAudioProcessor::PalmutesAudioProcessor()
         this->maxTime,
         this->defaultTime
     ));
+
+    this->addParameter(preGainParam = new juce::AudioParameterFloat(
+        "pregain",
+        "Pre-gain",
+        0.f,
+        50.f,
+        30.f
+    ));
 }
 
 PalmutesAudioProcessor::~PalmutesAudioProcessor()
@@ -262,6 +270,7 @@ void PalmutesAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     juce::MemoryOutputStream(destData, true).writeFloat(*gainParamter);
     juce::MemoryOutputStream(destData, true).writeFloat(*attackTime);
     juce::MemoryOutputStream(destData, true).writeFloat(*releaseTime);
+    juce::MemoryOutputStream(destData, true).writeFloat(*preGainParam);
 }
 
 void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -272,6 +281,7 @@ void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBy
     *gainParamter = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *attackTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *releaseTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
+    *preGainParam = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
 }
 
 //==============================================================================
