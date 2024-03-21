@@ -46,7 +46,7 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
             file = new File("C:\\Users\\USER\\OneDrive\\Documents\\Ableton\\Live Recordings\\2024-03-09 130654 Temp Project\\Samples\\Processed\\Consolidate\\GrandPiano C3 f [2024-03-09 130834].wav");
         }
         else {
-            file = new File("C:\\Users\\USER\\other-nerd-stuff\\projects\\palmutes\\samples\\pm-a.wav");
+            file = new File("C:\\Users\\USER\\other-nerd-stuff\\projects\\palmutes\\samples\\pm-a-noamp.wav");
         }
 
         ScopedPointer<AudioFormatReader> reader = audioFormatManager.createReaderFor(*file);

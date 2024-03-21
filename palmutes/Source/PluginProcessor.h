@@ -69,8 +69,14 @@ public:
     Compressor compressor;
     SteroWidener stereoWidener;
 
-    enum { convolutionIndex };
-    juce::dsp::ProcessorChain<juce::dsp::Convolution> processorChain;
+    juce::dsp::Convolution convolution;
+
+    // distortion
+    // TODO: allow pregain and postgain to be modifiable from the editor
+    juce::dsp::WaveShaper<float> waveshaper;
+    juce::dsp::Gain<float> preGain;
+    juce::dsp::Gain<float> postGain;
+    
 
     // for both, attack and release time
     uint16_t minTime = 0;

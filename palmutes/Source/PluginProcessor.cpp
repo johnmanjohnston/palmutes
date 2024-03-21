@@ -146,15 +146,34 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
     stereoWidener.width = 1.5f;
 
-    processorChain.prepare(spec);
-    processorChain.reset();
-    processorChain.template get<convolutionIndex>().loadImpulseResponse(
+    convolution.reset();
+    convolution.prepare(spec);
+    convolution.loadImpulseResponse(
         BinaryData::ir_two_wav,
         BinaryData::ir_two_wavSize,
         juce::dsp::Convolution::Stereo::yes,
         juce::dsp::Convolution::Trim::yes,
         0
     );
+
+    waveshaper.reset();
+    waveshaper.prepare(spec);
+    waveshaper.functionToUse = [](float x) 
+    {
+        // waveshape
+        float drive = 1.2f;
+        float bias = 1.5f;
+        x = std::tanh(x * drive + bias);
+
+        x = 1.5f * x - 0.5f * pow(x, 3);
+
+        return x;
+    };
+
+    preGain.reset(); postGain.reset();
+    preGain.prepare(spec); postGain.prepare(spec);
+    preGain.setGainDecibels(30.f);
+    postGain.setGainDecibels(-20.f);
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -208,15 +227,24 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     // from the keyboard component
     this->keyboardState.processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), true);
 
+    // let synth play audio
     synth.runtimeSoundConfiguration(midiMessages);
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    compressor.processSignal(buffer);
-    stereoWidener.process(buffer);
-
+    // setup context to be passed in DSP classes
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
-    processorChain.process(context);
+    
+    // distortion and cab impulse response
+    preGain.process(context);
+    waveshaper.process(context);
+    postGain.process(context);
+    
+    convolution.process(context);
+
+    // other effects
+    compressor.processSignal(buffer);
+    stereoWidener.process(buffer);
 
     buffer.applyGain(*gainParamter);
 }
