@@ -16,7 +16,7 @@ public:
     juce::dsp::Gain<float> preGain;
     juce::dsp::Gain<float> postGain;
     
-    float drive = 1.5f;
+    float drive = 1.2f;
     float bias = .5f;
 
     float preGainValue = 30.f;
@@ -57,6 +57,8 @@ public:
 
     float applyDistortion(float x) 
     {
-        return std::tanh(x * drive + bias);
+        x = std::tanh(x * drive + bias);
+        x = 1.5f * x - 0.5f * pow(x, 3);
+        return x;
     }
 };

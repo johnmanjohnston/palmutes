@@ -77,6 +77,10 @@ public:
     Compressor compressor;
     SteroWidener stereoWidener;
 
+    // filtering
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> highPass;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> midBooster;
+
     // for both, attack and release time
     uint16_t minTime = 0;
     uint16_t maxTime = 2;

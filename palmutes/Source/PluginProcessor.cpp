@@ -144,7 +144,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     // configure stero widener. Later, alllow the width to be modifiable from the editor
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
-    stereoWidener.width = 1.5f;
+    stereoWidener.width = 2.f;
 
     convolution.reset();
     convolution.prepare(spec);
@@ -158,6 +158,14 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     distortion.setup(spec);
     distortion.updateParams();
+
+    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 40.f, 3.f);
+    highPass.prepare(spec);
+    highPass.reset();
+
+    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3600, 5.f, 3.f);
+    midBooster.prepare(spec);
+    midBooster.reset();
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -219,8 +227,12 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     
+    // "amp-like" effects
     distortion.process(buffer, context, totalNumOutputChannels);
     convolution.process(context);
+
+    highPass.process(context);
+    midBooster.process(context);
 
     // other effects
     compressor.process(buffer);
