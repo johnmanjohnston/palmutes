@@ -39,7 +39,7 @@ public:
         _compressor.setThreshold(_threshold);
     }
 
-    void processSignal(juce::AudioBuffer<float>& buffer)
+    void process(juce::AudioBuffer<float>& buffer)
     {
         juce::dsp::AudioBlock<float> block{ buffer };
         _compressor.process(juce::dsp::ProcessContextReplacing<float>(block));

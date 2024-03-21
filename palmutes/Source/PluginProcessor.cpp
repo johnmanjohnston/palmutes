@@ -156,24 +156,8 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
         0
     );
 
-    waveshaper.reset();
-    waveshaper.prepare(spec);
-    waveshaper.functionToUse = [](float x) 
-    {
-        // waveshape
-        float drive = 1.2f;
-        float bias = 1.5f;
-        x = std::tanh(x * drive + bias);
-
-        x = 1.5f * x - 0.5f * pow(x, 3);
-
-        return x;
-    };
-
-    preGain.reset(); postGain.reset();
-    preGain.prepare(spec); postGain.prepare(spec);
-    preGain.setGainDecibels(30.f);
-    postGain.setGainDecibels(-20.f);
+    distortion.setup(spec);
+    distortion.updateParams();
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -235,15 +219,11 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     juce::dsp::AudioBlock<float> block(buffer);
     juce::dsp::ProcessContextReplacing<float> context(block);
     
-    // distortion and cab impulse response
-    preGain.process(context);
-    waveshaper.process(context);
-    postGain.process(context);
-    
+    distortion.process(buffer, context, totalNumOutputChannels);
     convolution.process(context);
 
     // other effects
-    compressor.processSignal(buffer);
+    compressor.process(buffer);
     stereoWidener.process(buffer);
 
     buffer.applyGain(*gainParamter);

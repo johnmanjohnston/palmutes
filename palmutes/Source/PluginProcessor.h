@@ -13,6 +13,7 @@
 
 #include "Compressor.h"
 #include "StereoWidener.h"
+#include "Distortion.h"
 
 //==============================================================================
 /**
@@ -65,18 +66,16 @@ public:
     juce::AudioParameterFloat* attackTime;
     juce::AudioParameterFloat* releaseTime;
 
+    // audio effects
     juce::dsp::ProcessSpec spec;
+
+    // "amp"-like effects
+    juce::dsp::Convolution convolution;
+    Distortion distortion;
+
+    // other effects
     Compressor compressor;
     SteroWidener stereoWidener;
-
-    juce::dsp::Convolution convolution;
-
-    // distortion
-    // TODO: allow pregain and postgain to be modifiable from the editor
-    juce::dsp::WaveShaper<float> waveshaper;
-    juce::dsp::Gain<float> preGain;
-    juce::dsp::Gain<float> postGain;
-    
 
     // for both, attack and release time
     uint16_t minTime = 0;
