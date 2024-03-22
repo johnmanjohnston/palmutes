@@ -68,7 +68,6 @@ public:
     juce::AudioParameterFloat* releaseTime;
 
     juce::AudioParameterFloat* preGainParam;
-    juce::AudioParameterFloat* wvBias; // waveshape bias
 
     // audio effects
     juce::dsp::ProcessSpec spec;
@@ -86,6 +85,7 @@ public:
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> lowpass;
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> midBooster;
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> _1kBooster;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> presence;
 
     // for both, attack and release time
     uint16_t minTime = 0;

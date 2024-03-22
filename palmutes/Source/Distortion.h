@@ -17,10 +17,10 @@ public:
     juce::dsp::Gain<float> postGain;
     
     float drive = 1.2f;
-    float bias = .5f;
+    //float bias = .5f;
 
     float preGainValue = 30.f;
-    float postGainValue = -15.f;
+    float postGainValue = -7.f;
 
     void setup(juce::dsp::ProcessSpec spec) 
     {
@@ -57,8 +57,10 @@ public:
 
     float applyDistortion(float x) 
     {
-        x = std::tanh(x * drive + bias);
-        x = 1.5f * x - 0.5f * pow(x, 3);
+        x = std::atan(x * drive);
+        //x = std::tanh(x * drive + bias);
+        //x = 1.5f * x - 0.5f * pow(x, 3);
+
         return x;
     }
 };

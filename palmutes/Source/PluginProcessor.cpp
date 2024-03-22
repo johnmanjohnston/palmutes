@@ -59,14 +59,6 @@ PalmutesAudioProcessor::PalmutesAudioProcessor()
         50.f,
         30.f
     ));
-
-    this->addParameter(wvBias = new juce::AudioParameterFloat(
-        "bias",
-        "Bias",
-        -3.f,
-        3.f,
-        0.f
-    ));
 }
 
 PalmutesAudioProcessor::~PalmutesAudioProcessor()
@@ -175,21 +167,26 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     distortion.setup(spec);
     distortion.updateParams();
 
-    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 120.f, 1.f);
+    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 110.f, 1.f);
     highPass.prepare(spec);
     highPass.reset();
 
-    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 3.f, 5.f);
+    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 1.f, 5.f);
     midBooster.prepare(spec);
     midBooster.reset();
 
-    lowpass.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 10000.f, 2.f);
+    lowpass.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 11000.f, 1.f);
     lowpass.prepare(spec);
     lowpass.reset();
 
     _1kBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 900.f, 1.f, 1.2f);
     _1kBooster.prepare(spec);
     _1kBooster.reset();
+
+    float presenceEQ = 1.f;
+    presence.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3000.f + presenceEQ * 500.f, 1.f, presenceEQ);
+    presence.prepare(spec);
+    presence.reset();
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -255,10 +252,14 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     distortion.process(buffer, context, totalNumOutputChannels);
     convolution.process(context);
 
+    // filtering
+    presence.process(context);
+
     highPass.process(context);
-    midBooster.process(context);
     lowpass.process(context);
+    
     _1kBooster.process(context);
+    midBooster.process(context);
 
     // other effects
     compressor.process(buffer);
@@ -289,7 +290,6 @@ void PalmutesAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     juce::MemoryOutputStream(destData, true).writeFloat(*attackTime);
     juce::MemoryOutputStream(destData, true).writeFloat(*releaseTime);
     juce::MemoryOutputStream(destData, true).writeFloat(*preGainParam);
-    juce::MemoryOutputStream(destData, true).writeFloat(*wvBias);
 }
 
 void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -301,7 +301,6 @@ void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBy
     *attackTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *releaseTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *preGainParam = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
-    *wvBias = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
 }
 
 //==============================================================================
