@@ -68,6 +68,7 @@ public:
     juce::AudioParameterFloat* releaseTime;
 
     juce::AudioParameterFloat* preGainParam;
+    juce::AudioParameterFloat* wvBias; // waveshape bias
 
     // audio effects
     juce::dsp::ProcessSpec spec;

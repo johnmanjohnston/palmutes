@@ -75,6 +75,9 @@ public:
     juce::Slider preGainSlider;
     juce::SliderParameterAttachment pregainSliderAttachment;
 
+    juce::Slider biasSlider;
+    juce::SliderParameterAttachment biasSliderAttachment;
+
     juce::ToggleButton harmonizationChekbox;
 
     PalmutesLookAndFeel palmutesLookAndFeel;

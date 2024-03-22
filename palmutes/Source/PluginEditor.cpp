@@ -13,7 +13,8 @@
 PalmutesAudioProcessorEditor::PalmutesAudioProcessorEditor(PalmutesAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p), keyboardComponent(p.keyboardState, juce::MidiKeyboardComponent::horizontalKeyboard),
     gainSliderParamAttachment(*p.gainParamter, gainSlider), attackTimeSliderParamAttachment(*p.attackTime, attackTimeSlider),
-    releaseTimeSliderParamAttachment(*p.releaseTime, releaseTimeSlider), pregainSliderAttachment(*p.preGainParam, preGainSlider)
+    releaseTimeSliderParamAttachment(*p.releaseTime, releaseTimeSlider), pregainSliderAttachment(*p.preGainParam, preGainSlider),
+    biasSliderAttachment(*p.wvBias, biasSlider)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -32,6 +33,7 @@ PalmutesAudioProcessorEditor::~PalmutesAudioProcessorEditor()
     harmonizationChekbox.setLookAndFeel(nullptr);
 
     preGainSlider.setLookAndFeel(nullptr);
+    biasSlider.setLookAndFeel(nullptr);
 }
 
 void PalmutesAudioProcessorEditor::changeListenerCallback(ChangeBroadcaster* source)
@@ -123,12 +125,22 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     preGainSlider.setSize(150, 18);
     preGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
 
+    // draw bias slider
+    addAndMakeVisible(biasSlider);
+    biasSlider.setRange(audioProcessor.wvBias->range.start, audioProcessor.wvBias->range.end);
+    biasSlider.setTextValueSuffix(" - BIAS");
+    biasSlider.setSkewFactor(1.2f);
+    biasSlider.setNumDecimalPlacesToDisplay(2);
+    biasSlider.setLookAndFeel(&palmutesLookAndFeel);
+    biasSlider.setSize(150, 18);
+    biasSlider.setSliderStyle(juce::Slider::SliderStyle::LinearBar);
+
     // draw harmonization checkbox
     addAndMakeVisible(harmonizationChekbox);
     harmonizationChekbox.setButtonText("HARMONIZE");
     harmonizationChekbox.setLookAndFeel(&palmutesLookAndFeel);
 
-    // handle value initialization and setting for attack and release time sliders
+    // handle value initialization and setting for sliders which manipulate data from child classes of the processor
     attackTimeSlider.setValue(audioProcessor.attackTime->get());
     audioProcessor.synth.attackTimeToSet = attackTimeSlider.getValue();
     attackTimeSlider.onValueChange = [this] {audioProcessor.synth.attackTimeToSet = attackTimeSlider.getValue(); audioProcessor.synth.refreshParams = true; };
@@ -140,6 +152,10 @@ void PalmutesAudioProcessorEditor::paint (juce::Graphics& g)
     preGainSlider.setValue(audioProcessor.preGainParam->get());
     audioProcessor.distortion.preGainValue = preGainSlider.getValue();
     preGainSlider.onValueChange = [this] { audioProcessor.distortion.updateParams(); };
+
+    biasSlider.setValue(audioProcessor.wvBias->get());
+    audioProcessor.distortion.bias = biasSlider.getValue();
+    biasSlider.onValueChange = [this] { audioProcessor.distortion.bias = biasSlider.getValue(); };
 
     // draw any active notes
     for (int note : activeNotes) {
@@ -184,6 +200,7 @@ void PalmutesAudioProcessorEditor::resized()
     releaseTimeSlider.setBounds(15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 3.5f, 300, 50);
     attackTimeSlider.setBounds (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.84f,300, 50);
     preGainSlider.setBounds    (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.39f, 300, 50);
+    biasSlider.setBounds       (15, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 1.5f, 300, 50); // TODO: actually setup a good position
 
     harmonizationChekbox.setBounds(12, WINDOW_RATIO_Y * WINDOW_RATIO_MULTIPLIER / 2.22f, 300, 50);
 }

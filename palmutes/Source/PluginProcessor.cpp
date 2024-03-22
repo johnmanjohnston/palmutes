@@ -59,6 +59,14 @@ PalmutesAudioProcessor::PalmutesAudioProcessor()
         50.f,
         30.f
     ));
+
+    this->addParameter(wvBias = new juce::AudioParameterFloat(
+        "bias",
+        "Bias",
+        -3.f,
+        3.f,
+        0.f
+    ));
 }
 
 PalmutesAudioProcessor::~PalmutesAudioProcessor()
@@ -152,7 +160,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     // configure stero widener. Later, alllow the width to be modifiable from the editor
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
-    stereoWidener.width = 2.f;
+    stereoWidener.width = 2.5f;
 
     convolution.reset();
     convolution.prepare(spec);
@@ -171,7 +179,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     highPass.prepare(spec);
     highPass.reset();
 
-    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3600, 5.f, 3.f);
+    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400, 3.f, 5.f);
     midBooster.prepare(spec);
     midBooster.reset();
 }
@@ -271,6 +279,7 @@ void PalmutesAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
     juce::MemoryOutputStream(destData, true).writeFloat(*attackTime);
     juce::MemoryOutputStream(destData, true).writeFloat(*releaseTime);
     juce::MemoryOutputStream(destData, true).writeFloat(*preGainParam);
+    juce::MemoryOutputStream(destData, true).writeFloat(*wvBias);
 }
 
 void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -282,6 +291,7 @@ void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBy
     *attackTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *releaseTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *preGainParam = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
+    *wvBias = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
 }
 
 //==============================================================================
