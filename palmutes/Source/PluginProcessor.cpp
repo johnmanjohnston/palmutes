@@ -175,13 +175,21 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     distortion.setup(spec);
     distortion.updateParams();
 
-    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 40.f, 3.f);
+    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 120.f, 1.f);
     highPass.prepare(spec);
     highPass.reset();
 
-    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400, 3.f, 5.f);
+    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 3.f, 5.f);
     midBooster.prepare(spec);
     midBooster.reset();
+
+    lowpass.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 10000.f, 2.f);
+    lowpass.prepare(spec);
+    lowpass.reset();
+
+    _1kBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 900.f, 1.f, 1.2f);
+    _1kBooster.prepare(spec);
+    _1kBooster.reset();
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -249,6 +257,8 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
 
     highPass.process(context);
     midBooster.process(context);
+    lowpass.process(context);
+    _1kBooster.process(context);
 
     // other effects
     compressor.process(buffer);
