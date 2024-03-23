@@ -20,6 +20,11 @@ public:
 
     juce::dsp::Compressor<float> _compressor;
 
+    void reset() 
+    {
+        _compressor.reset();
+    }
+
     void setSpec(juce::dsp::ProcessSpec spec) 
     { 
         _compressor.prepare(spec); 

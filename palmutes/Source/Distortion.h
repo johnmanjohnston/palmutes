@@ -22,11 +22,14 @@ public:
     float preGainValue = 30.f;
     float postGainValue = -7.f;
 
-    void setup(juce::dsp::ProcessSpec spec) 
+    void reset() 
     {
         preGain.reset();
         postGain.reset();
+    }
 
+    void setup(juce::dsp::ProcessSpec spec) 
+    {
         preGain.prepare(spec);
         postGain.prepare(spec);
     }

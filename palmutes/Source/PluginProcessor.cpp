@@ -154,7 +154,6 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
     stereoWidener.width = 2.5f;
 
-    convolution.reset();
     convolution.prepare(spec);
     convolution.loadImpulseResponse(
         BinaryData::ir_two_wav,
@@ -168,7 +167,6 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     distortion.updateParams();
 
     gate.prepare(spec);
-    gate.reset();
     gate.setAttack(20);
     gate.setRelease(300);
     gate.setRatio(2.f);
@@ -176,24 +174,19 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 90.f, 1.f);
     highPass.prepare(spec);
-    highPass.reset();
 
     midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 1.f, 5.f);
     midBooster.prepare(spec);
-    midBooster.reset();
 
     lowpass.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 11000.f, 1.f);
     lowpass.prepare(spec);
-    lowpass.reset();
 
     _1kBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 900.f, 1.f, 1.2f);
     _1kBooster.prepare(spec);
-    _1kBooster.reset();
 
     float presenceEQ = 1.2f;
     presence.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3000.f + presenceEQ * 500.f, 1.f, presenceEQ);
     presence.prepare(spec);
-    presence.reset();
 }
 
 void PalmutesAudioProcessor::releaseResources()
@@ -309,6 +302,20 @@ void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBy
     *attackTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *releaseTime = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
     *preGainParam = juce::MemoryInputStream(data, static_cast<size_t>(sizeInBytes), false).readFloat();
+}
+
+void PalmutesAudioProcessor::reset()
+{
+    convolution.reset();
+    gate.reset();
+    highPass.reset();
+    midBooster.reset();
+    lowpass.reset();
+    _1kBooster.reset();
+    presence.reset();
+
+    compressor.reset();
+    distortion.reset();
 }
 
 //==============================================================================
