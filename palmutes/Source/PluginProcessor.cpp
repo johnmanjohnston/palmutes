@@ -141,7 +141,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 
     // setup compressor
     // fixing the parameter values here is temporary; later, allow those parameters to be
-    // modifiable from the editor
+    // modifiable from the editor TODO
     compressor.setSpec(this->spec);
     compressor.setParams(
         100,
@@ -150,7 +150,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
         4
     );
 
-    // configure stero widener. Later, alllow the width to be modifiable from the editor
+    // configure stero widener. Later, alllow the width to be modifiable from the editor TODO
     stereoWidener.outputChannelCount = getTotalNumOutputChannels();
     stereoWidener.width = 2.5f;
 
@@ -167,7 +167,14 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     distortion.setup(spec);
     distortion.updateParams();
 
-    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 110.f, 1.f);
+    gate.prepare(spec);
+    gate.reset();
+    gate.setAttack(20);
+    gate.setRelease(300);
+    gate.setRatio(2.f);
+    gate.setThreshold(-12.f);
+
+    highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 90.f, 1.f);
     highPass.prepare(spec);
     highPass.reset();
 
@@ -183,7 +190,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     _1kBooster.prepare(spec);
     _1kBooster.reset();
 
-    float presenceEQ = 1.f;
+    float presenceEQ = 1.2f;
     presence.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3000.f + presenceEQ * 500.f, 1.f, presenceEQ);
     presence.prepare(spec);
     presence.reset();
@@ -262,8 +269,9 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     midBooster.process(context);
 
     // other effects
-    compressor.process(buffer);
+    gate.process(context);
     stereoWidener.process(buffer);
+    compressor.process(buffer);
 
     buffer.applyGain(*gainParamter);
 }

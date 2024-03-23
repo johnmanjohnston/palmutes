@@ -79,6 +79,7 @@ public:
     // other effects
     Compressor compressor;
     SteroWidener stereoWidener;
+    juce::dsp::NoiseGate<float> gate;
 
     // filtering
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> highPass;
