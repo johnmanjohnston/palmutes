@@ -35,10 +35,10 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
         const auto midiMessage = midiData.getMessage();
         const auto noteNumber = midiMessage.getNoteNumber();
 
-        if (noteNumber != previousNoteNumber) {
-            previousNoteNumber = noteNumber;
-        }
-        else if (!refreshParams) { return; }
+        //if (noteNumber != previousNoteNumber) {
+        //    previousNoteNumber = noteNumber;
+        //}
+        //else if (!refreshParams) { return; }
 
         // structure for sample file path is: /samples/<harmonized OR unharmonized>/<note_number>_<velocity>.wav
         ScopedPointer<File> file;
@@ -46,10 +46,15 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
             file = new File("C:\\Users\\USER\\OneDrive\\Documents\\Ableton\\Live Recordings\\2024-03-09 130654 Temp Project\\Samples\\Processed\\Consolidate\\GrandPiano C3 f [2024-03-09 130834].wav");
         }
         else {
-            if (noteNumber >= 52 && noteNumber <= 59) {
+            if (noteNumber >= 52 && noteNumber <= 91) {
                 juce::String fpath = "C:\\Users\\USER\\other-nerd-stuff\\projects\\palmutes\\";
                 fpath.append("splitting\\", 99);
                 fpath.append(juce::String(noteNumber), 4);
+
+                int variation = rand() % 3;
+                fpath.append("_", 1);
+                fpath.append(juce::String(variation), 1);
+
                 fpath.append(".wav", 5);
                 file = new File(fpath);
             }

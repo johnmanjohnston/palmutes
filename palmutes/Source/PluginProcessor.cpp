@@ -175,7 +175,7 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 90.f, 1.f);
     highPass.prepare(spec);
 
-    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 1.f, 5.f);
+    midBooster.state = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 3400.f, 1.f, 2.f);
     midBooster.prepare(spec);
 
     lowpass.state = juce::dsp::IIR::Coefficients<float>::makeLowPass(sampleRate, 11000.f, 1.f);
