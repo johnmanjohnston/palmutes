@@ -166,11 +166,8 @@ void PalmutesAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     distortion.setup(spec);
     distortion.updateParams();
 
-    gate.prepare(spec);
-    gate.setAttack(20);
-    gate.setRelease(300);
-    gate.setRatio(2.f);
-    gate.setThreshold(-12.f);
+    gate.setSpec(spec);
+    gate.setParams(20.f, 300.f, -12.f, 2.f);
 
     highPass.state = juce::dsp::IIR::Coefficients<float>::makeHighPass(sampleRate, 90.f, 1.f);
     highPass.prepare(spec);
@@ -262,7 +259,7 @@ void PalmutesAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
     midBooster.process(context);
 
     // other effects
-    gate.process(context);
+    gate.process(buffer);
     stereoWidener.process(buffer);
     compressor.process(buffer);
 
@@ -307,13 +304,13 @@ void PalmutesAudioProcessor::setStateInformation (const void* data, int sizeInBy
 void PalmutesAudioProcessor::reset()
 {
     convolution.reset();
-    gate.reset();
     highPass.reset();
     midBooster.reset();
     lowpass.reset();
     _1kBooster.reset();
     presence.reset();
 
+    gate.reset();
     compressor.reset();
     distortion.reset();
 }

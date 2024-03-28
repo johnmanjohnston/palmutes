@@ -3153,6 +3153,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Gate.h">
+      <Filter>palmutes\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Distortion.h">
       <Filter>palmutes\Source</Filter>
     </ClInclude>

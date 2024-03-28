@@ -2559,6 +2559,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Gate.h"/>
     <ClInclude Include="..\..\Source\Distortion.h"/>
     <ClInclude Include="..\..\Source\StereoWidener.h"/>
     <ClInclude Include="..\..\Source\Compressor.h"/>

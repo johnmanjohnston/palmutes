@@ -40,23 +40,24 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
         //}
         //else if (!refreshParams) { return; }
 
-        // structure for sample file path is: /samples/<harmonized OR unharmonized>/<note_number>_<velocity>.wav
+        // structure for sample file path is: /samples/<harmonized OR unharmonized>/<note_number>_<velocity>_<variation>.wav
         ScopedPointer<File> file;
         if (noteNumber > 80) {
             file = new File("C:\\Users\\USER\\OneDrive\\Documents\\Ableton\\Live Recordings\\2024-03-09 130654 Temp Project\\Samples\\Processed\\Consolidate\\GrandPiano C3 f [2024-03-09 130834].wav");
         }
         else {
-            if (noteNumber >= 52 && noteNumber <= 91) {
+            if (noteNumber >= 52 && noteNumber <= 61) {
                 juce::String fpath = "C:\\Users\\USER\\other-nerd-stuff\\projects\\palmutes\\";
                 fpath.append("splitting\\", 99);
                 fpath.append(juce::String(noteNumber), 4);
 
-                int variation = rand() % 3;
+                int variation = GetVariationNumber();
                 fpath.append("_", 1);
                 fpath.append(juce::String(variation), 1);
 
                 fpath.append(".wav", 5);
                 file = new File(fpath);
+                DBG("filepath: " << fpath);
             }
 
             else
@@ -69,7 +70,8 @@ void PalmutesSynth::runtimeSoundConfiguration(MidiBuffer& midiMessages)
 
         this->sounds.remove(0);
 
-        auto sound = new SamplerSound("default", *reader, allNotes, noteNumber, attackTimeToSet, releaseTimeToSet, 10.f);
+        auto sound = new SamplerSound("default", *reader, allNotes, noteNumber, 
+                                      attackTimeToSet, releaseTimeToSet, 10.f);
         this->addSound(sound);
 
         refreshParams = false;
@@ -90,8 +92,6 @@ int PalmutesSynth::GetSampleVelocity(float realVelocity)
 
 int PalmutesSynth::GetVariationNumber()
 {
-    int retval;
-    
-    previousVariationNumber = retval;
-    return retval;
+    int numVariations = 3;
+    return std::rand() % numVariations;
 }

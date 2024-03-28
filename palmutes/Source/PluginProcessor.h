@@ -14,6 +14,7 @@
 #include "Compressor.h"
 #include "StereoWidener.h"
 #include "Distortion.h"
+#include "Gate.h"
 
 //==============================================================================
 /**
@@ -81,7 +82,7 @@ public:
     // other effects
     Compressor compressor;
     SteroWidener stereoWidener;
-    juce::dsp::NoiseGate<float> gate;
+    Gate gate;
 
     // filtering
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> highPass;
